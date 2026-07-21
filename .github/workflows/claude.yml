@@ -1,7 +1,8 @@
-name: Claude CI/CD
+name: Claude Security Review
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -12,14 +13,20 @@ permissions:
 jobs:
   claude:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Run Claude Security Review
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
+          prompt: |
+            Perform the pull request security review defined in CLAUDE.md.
+
           claude_args: |
-            --allowedTools "Read,Grep,Glob,Bash(git:*),Bash(gh pr comment:*),mcp__github_inline_comment__create_inline_comment"
+            --allowedTools "Bash(gh pr comment:*),mcp__github_inline_comment__create_inline_comment"
