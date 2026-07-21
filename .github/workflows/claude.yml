@@ -1,33 +1,26 @@
 name: Claude CI/CD
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
   pull_request:
-    types: [opened, synchronize, reopened]
-  issue_comment:
-    types: [created]
 
 permissions:
   contents: read
-  pull-requests: read
+  pull-requests: write
   issues: write
   id-token: write
 
 jobs:
   claude:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Claude automation
-        uses: anthropics/claude-code-action@beta
+      - name: Run Claude Review
+        uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
-            Review the repository changes and provide concise security and quality feedback.
-          timeout_minutes: "20"
+            Review the pull request for security code review.
