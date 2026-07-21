@@ -1,5 +1,5 @@
 <?php
-// Intentionally insecure demo code
+// Intentionally insecure demo coded
 $user = $_GET['user'] ?? '';
 $command = "echo " . $user;
 system($command);
