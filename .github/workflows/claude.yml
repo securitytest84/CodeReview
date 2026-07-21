@@ -12,15 +12,14 @@ permissions:
 jobs:
   claude:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Run Claude Review
+      - name: Run Claude Security Review
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prompt: |
-            Review the pull request for security code review.
+
+          claude_args: |
+            --allowedTools "Read,Grep,Glob,Bash(git:*),Bash(gh pr comment:*),mcp__github_inline_comment__create_inline_comment"
