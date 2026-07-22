@@ -1,8 +1,7 @@
 name: Claude Security Review
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
 
 permissions:
   contents: read
